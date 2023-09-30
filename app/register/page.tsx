@@ -1,8 +1,10 @@
 "use client";
 
 import Input from "@/components/input/Input";
+import axios from "axios";
 import React, { FormEvent } from "react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface InitialStateProps {
   name: string;
@@ -18,12 +20,26 @@ const initialState: InitialStateProps = {
 
 const page = () => {
   const [state, setState] = useState(initialState);
+  const router = useRouter();
 
   function handleChange(e: any) {
     setState({ ...state, [e.target.name]: e.target.value });
   }
 
-  const onSubmit = (event: FormEvent) => {};
+  const onSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    axios
+      .post("api/register", state)
+      .then(() => {
+        router.refresh();
+      })
+      .then(() => {
+        setTimeout(() => {
+          router.push("/login");
+        }, 2500);
+      })
+      .catch((err: any) => {});
+  };
 
   return (
     <form className="text-center" onSubmit={onSubmit}>
