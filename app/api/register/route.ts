@@ -17,5 +17,5 @@ export async function POST(request: Request) {
       hashedPassword,
     },
   });
-  NextResponse.json(user);
+  return NextResponse.json(user);
 }
