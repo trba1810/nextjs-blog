@@ -69,9 +69,11 @@ const page = () => {
           onChange={handleChange}
           value={state.password}
         />
-        <button type="submit"></button>
+        <button type="submit">Submit</button>
       </div>
-      <div>Do you have account? <Link href="/login">Sign in</Link></div>
+      <div>
+        Do you have account? <Link href="/login">Sign in</Link>
+      </div>
     </form>
   );
 };
