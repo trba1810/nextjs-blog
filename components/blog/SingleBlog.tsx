@@ -5,6 +5,7 @@ import Image from "next/image";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { BsFillPencilFill } from "react-icons/bs";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 interface BlogProps {
   key: string;
@@ -14,6 +15,20 @@ interface BlogProps {
 
 export default function SingleBlog({ data, key, currentUser }: BlogProps) {
   const router = useRouter();
+
+  const onDelete = () => {
+    axios
+      .delete(`/api/blogs/${data.id}`)
+      .then(() => {
+        router.refresh();
+      })
+      .catch((error) => {
+        throw new Error(error);
+      })
+      .finally(() => {
+        router.push("/");
+      });
+  };
   return (
     <div className="w-[1100px] border-2 p-4">
       <div>
@@ -29,18 +44,18 @@ export default function SingleBlog({ data, key, currentUser }: BlogProps) {
             <p>{data.description}</p>
           </div>
         </div>
-        {data.userId === currentUser?.id} && (
-        <div>
-          <RiDeleteBin5Line
-            onClick={onDelete}
-            className="curson-pointer text-[1.5rem]"
-          />
-          <BsFillPencilFill
-            onClick={() => router.push(`blogs/${data.id}`)}
-            className="cursor-pointer text-[1.2rem]"
-          />
-        </div>
-        )
+        {data.userId === currentUser?.id && (
+          <div className="flex items-center gap-4 mt-4">
+            <RiDeleteBin5Line
+              onClick={onDelete}
+              className="curson-pointer text-[1.5rem]"
+            />
+            <BsFillPencilFill
+              onClick={() => router.push(`blogs/${data.id}`)}
+              className="cursor-pointer text-[1.2rem]"
+            />
+          </div>
+        )}
       </div>
     </div>
   );
