@@ -1,6 +1,7 @@
 import Image from "next/image";
 import getCurrentUser from "./actions/getCurrentUser";
 import getBlogs from "./actions/getBlogs";
+import SingleBlog from "@/components/blog/SingleBlog";
 
 export default async function Home() {
   const currentUser = await getCurrentUser();
